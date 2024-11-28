@@ -11,7 +11,7 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
     - Responsável - Renato Mori
 
 - **Criação do modelo do banco transacional**
-    - Responsáveis Mônica Dyna e Henrique Arduini
+    - Responsáveis - Mônica Dyna e Henrique Arduini
 
 - **Ingestão os dados para o modelo transacional**
     - Responsável - Vinishow
