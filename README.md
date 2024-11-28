@@ -4,7 +4,7 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 ---
 
 ## Divisão de tarefas
-- **Criação do Dockerfile do projeto**
+- **Criação do dockerfile do projeto**
     - Responsáveis - Vinishow e Renato Mori
 
 - **Criação do banco transacional**
@@ -16,7 +16,7 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 - **Ingestão os dados para o modelo transacional**
     - Responsável - Vinishow
 ---
-- **Criação o banco analítico**
+- **Criação do banco analítico**
     - Responsável - Renato Mori
 
 - **Criação do modelo do banco analítico**
