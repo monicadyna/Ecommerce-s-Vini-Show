@@ -1,4 +1,4 @@
-CREATE TABLE order_reviews
+CREATE TABLE IF NOT EXISTS transac_data.order_reviews
 (
     id INT AUTO_INCREMENT PRIMARY KEY
     review_id VARCHAR(32) NOT NULL

@@ -1,4 +1,5 @@
-CREATE TABLE payments (
+CREATE TABLE IF NOT EXISTS transac_data.payments
+(
     id INT AUTO_INCREMENT PRIMARY KEY
     , order_id VARCHAR(32) NOT NULL
     , payment_sequential INT

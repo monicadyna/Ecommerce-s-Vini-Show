@@ -1,4 +1,4 @@
-CREATE TABLE customer
+CREATE TABLE IF NOT EXISTS transac_data.customer
 (
     customer_id VARCHAR(32) NOT NULL
     , customer_unique_id VARCHAR(32) NOT NULL

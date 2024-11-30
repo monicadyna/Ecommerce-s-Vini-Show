@@ -1,4 +1,4 @@
-CREATE TABLE products
+CREATE TABLE IF NOT EXISTS transac_data.products
 (
     id INT AUTO_INCREMENT PRIMARY KEY
     product_id VARCHAR(32) NOT NULL
