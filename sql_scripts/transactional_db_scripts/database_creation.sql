@@ -6,3 +6,5 @@ GO
 USE VinishowEcommerce_transacional;
 GO
 
+CREATE SCHEMA transac_data;
+GO
