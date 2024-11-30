@@ -5,4 +5,4 @@ CREATE TABLE payments (
     , payment_type VARCHAR(20)
     , payment_installments INT
     , payment_value DECIMAL(10, 2)
-);
+); 
