@@ -10,7 +10,7 @@ table_name = ''                     #Tabela
 
 # String de conexão
 conn_str = (
-    f"DRIVER={{ODBC Driver 17 for SQL Server}};"
+    f"DRIVER={{/opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.0.so.1.1}};"
     f"SERVER={server};"
     f"DATABASE={database};"
     f"UID={username};"
@@ -22,15 +22,15 @@ conn = pyodbc.connect(conn_str)
 cursor = conn.cursor()
 
 datasets = {
-    'transa.data.customers': './ingestion/olist_customers_dataset.csv',
-    'transa.data.geolocation': './ingestion/olist_geolocation_dataset.csv',
-    'transa.data.order_items': './ingestion/olist_order_items_dataset.csv',
-    'transa.data.payments': './ingestion/olist_order_payments_dataset.csv',
-    'transa.data.order_reviews': './ingestion/olist_order_reviews_dataset.csv',
-    'transa.data.orders': './ingestion/olist_orders_dataset.csv',
-    'transa.data.products': './ingestion/olist_products_dataset.csv',
-    'transa.data.sellers': './ingestion/olist_sellers_dataset.csv',
-    'transa.data.product_category_name_translation': './ingestion/product_category_name_translation.csv'
+    'transac_data.customers': './ingestion/olist_customers_dataset.csv',
+    'transac_data.geolocation': './ingestion/olist_geolocation_dataset.csv',
+    'transac_data.order_items': './ingestion/olist_order_items_dataset.csv',
+    'transac_data.payments': './ingestion/olist_order_payments_dataset.csv',
+    'transac_data.order_reviews': './ingestion/olist_order_reviews_dataset.csv',
+    'transac_data.orders': './ingestion/olist_orders_dataset.csv',
+    'transac_data.products': './ingestion/olist_products_dataset.csv',
+    'transac_data.sellers': './ingestion/olist_sellers_dataset.csv',
+    'transac_data.product_category_name_translation': './ingestion/product_category_name_translation.csv'
 }
 
 #Insert dos datasets
