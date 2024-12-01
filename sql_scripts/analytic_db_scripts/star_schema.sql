@@ -1,5 +1,4 @@
--- Tabela de Dimensão: Customers
-CREATE TABLE dim_customers (
+CREATE TABLE analitics_data.dim_customers (
     customer_id VARCHAR(32) PRIMARY KEY,
     customer_unique_id VARCHAR(32) UNIQUE NOT NULL,
     customer_zip_code_prefix VARCHAR(7),
@@ -7,8 +6,8 @@ CREATE TABLE dim_customers (
     customer_state CHAR(2)
 );
 
--- Tabela de Dimensão: Products
-CREATE TABLE dim_products (
+
+CREATE TABLE analitics_data.dim_products (
     product_id VARCHAR(32) PRIMARY KEY,
     product_category_name VARCHAR(50),
     product_name_lenght INT,
@@ -20,16 +19,16 @@ CREATE TABLE dim_products (
     product_width_cm INT
 );
 
--- Tabela de Dimensão: Sellers
-CREATE TABLE dim_sellers (
+
+CREATE TABLE analitics_data.dim_sellers (
     seller_id VARCHAR(32) PRIMARY KEY,
     seller_zip_code_prefix VARCHAR(7),
     seller_city VARCHAR(50),
     seller_state CHAR(2)
 );
 
--- Tabela de Fatos: Orders
-CREATE TABLE fact_orders (
+
+CREATE TABLE analitics_data.fact_orders (
     order_id VARCHAR(32) PRIMARY KEY,
     customer_id VARCHAR(32),
     order_status VARCHAR(20),
@@ -41,8 +40,8 @@ CREATE TABLE fact_orders (
     FOREIGN KEY (customer_id) REFERENCES dim_customers(customer_id)
 );
 
--- Tabela de Fatos: Order Items
-CREATE TABLE fact_order_items (
+
+CREATE TABLE analitics_data.fact_order_items (
     order_item_id VARCHAR(32) PRIMARY KEY,
     order_id VARCHAR(32),
     product_id VARCHAR(32),
@@ -55,8 +54,8 @@ CREATE TABLE fact_order_items (
     FOREIGN KEY (seller_id) REFERENCES dim_sellers(seller_id)
 );
 
--- Tabela de Dimensão: Order Items
-CREATE TABLE dim_order_items (
+
+CREATE TABLE analitics_data.dim_order_items (
     order_item_id VARCHAR(32) PRIMARY KEY,
     order_id VARCHAR(32) NOT NULL,
     product_id VARCHAR(32) NOT NULL,
