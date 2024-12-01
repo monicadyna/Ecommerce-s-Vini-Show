@@ -1,6 +1,5 @@
 CREATE TABLE IF NOT EXISTS transac_data.orders
 (
-    id INT AUTO_INCREMENT PRIMARY KEY
     order_id VARCHAR(32) NOT NULL
     , customer_id VARCHAR(32) NOT NULL
     , order_status VARCHAR(20)
@@ -9,5 +8,5 @@ CREATE TABLE IF NOT EXISTS transac_data.orders
     , order_delivered_carrier_date DATETIME
     , order_delivered_customer_date DATETIME
     , order_estimated_delivery_date DATE
-    , PRIMARY KEY (id)
+    , PRIMARY KEY (order_id, customer_id)
 );
