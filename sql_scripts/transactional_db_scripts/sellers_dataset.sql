@@ -5,5 +5,6 @@ CREATE TABLE IF NOT EXISTS transac_data.sellers
     , seller_city VARCHAR(50)
     , seller_state CHAR(2)
     , PRIMARY KEY (seller_id)
+    , FOREIGN KEY (seller_zip_code_prefix) REFERENCES transac_data.geolocation(geolocation_zip_code_prefix)
 );
 

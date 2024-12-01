@@ -8,5 +8,6 @@ CREATE TABLE IF NOT EXISTS transac_data.order_reviews
     , review_creation_date DATE
     , review_answer_timestamp DATETIME
     , PRIMARY KEY (review_id, order_id)
+    , FOREIGN KEY (order_id) REFERENCES transac_data.orders(order_id)
 );
 

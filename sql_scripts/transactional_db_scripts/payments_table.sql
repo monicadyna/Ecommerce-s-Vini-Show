@@ -6,4 +6,5 @@ CREATE TABLE IF NOT EXISTS transac_data.payments
     , payment_installments INT
     , payment_value DECIMAL(10, 2)
     , PRIMARY KEY (order_id)
+    , FOREIGN KEY (order_id) REFERENCES transac_data.orders(order_id)
 ); 

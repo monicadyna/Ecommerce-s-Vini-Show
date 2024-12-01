@@ -9,4 +9,5 @@ CREATE TABLE IF NOT EXISTS transac_data.orders
     , order_delivered_customer_date DATETIME
     , order_estimated_delivery_date DATE
     , PRIMARY KEY (order_id, customer_id)
+    , FOREIGN KEY (customer_id) REFERENCES transac_data.customer(customer_id)
 );
