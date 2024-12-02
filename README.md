@@ -2,8 +2,8 @@
 ### Universidade Presbiteriana Mackenzie
 ### Matéria: Data Prep & Transformation
 
-# Vini Show Brasil
-Este trabalho mostra como desenvolver um fluxo completo de preparação e transformação de dados de um conjunto de dados brutos de um de uma rede de varejo brasileira. O código e os arquivos gerados encontram-se disponíveis neste repositório para consulta e replicação.
+# Ecommerce's Vini Show Brasil
+Este trabalho mostra como desenvolver um fluxo completo de preparação e transformação de dados de um conjunto de dados brutos de um e-commerce brasileiro. O código e os arquivos gerados encontram-se disponíveis neste repositório para consulta e replicação.
 
 ---
 
