@@ -14,7 +14,7 @@ CREATE TABLE transac_data.products
 
 CREATE TABLE transac_data.geolocation
 (
-      geolocation_zip_code_prefix VARCHAR(7) PRIMARY KEY
+    geolocation_zip_code_prefix VARCHAR(7) PRIMARY KEY
     , geolocation_lat DECIMAL(8, 6)
     , geolocation_lng DECIMAL(9, 6)
     , geolocation_city VARCHAR(50)
@@ -32,18 +32,17 @@ CREATE TABLE transac_data.product_category_name_translation
 
 CREATE TABLE transac_data.sellers
 (
-      seller_id VARCHAR(32) NOT NULL
+      seller_id VARCHAR(32) PRIMARY KEY
     , seller_zip_code_prefix VARCHAR(7)
     , seller_city VARCHAR(50)
     , seller_state CHAR(2)
-    , PRIMARY KEY (seller_id)
     , FOREIGN KEY (seller_zip_code_prefix) REFERENCES transac_data.geolocation(geolocation_zip_code_prefix)
 );
 
 
 CREATE TABLE transac_data.customer
 (
-    customer_id VARCHAR(32) NOT NULL
+    customer_id VARCHAR(32) UNIQUE NOT NULL
     , customer_unique_id VARCHAR(32) UNIQUE NOT NULL
     , customer_zip_code_prefix VARCHAR(7)
     , customer_city VARCHAR(50)
@@ -64,7 +63,7 @@ CREATE TABLE transac_data.orders
     , order_delivered_customer_date DATETIME
     , order_estimated_delivery_date DATE
     , PRIMARY KEY (order_id, customer_id)
-    , FOREIGN KEY (customer_id) REFERENCES transac_data.customer(customer_unique_id)
+    , FOREIGN KEY (customer_id) REFERENCES transac_data.customer(customer_id)
 );
 
 

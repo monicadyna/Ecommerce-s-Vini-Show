@@ -45,4 +45,5 @@ dataset_name = "olistbr/brazilian-ecommerce"
 z_file = "brazilian-ecommerce.zip"
 csv_file = "./extraction/brazilian_ecommerce.csv"
 
+
 unzip_file(dataset_name, z_file)
