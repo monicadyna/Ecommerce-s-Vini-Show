@@ -37,7 +37,7 @@ CREATE TABLE analitics_data.fact_orders (
     order_delivered_carrier_date DATETIME2,
     order_delivered_customer_date DATETIME2,
     order_estimated_delivery_date DATETIME2,
-    FOREIGN KEY (customer_id) REFERENCES dim_customers(customer_id)
+    FOREIGN KEY (customer_id) REFERENCES analitics_data.dim_customers(customer_id)
 );
 
 
