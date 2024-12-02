@@ -285,10 +285,10 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 
 
 ### Modelagem transacional
-![transacional](./imgs/transact.jpg)
+![transacional](./imgs/transac_data.png)
 
-### Modelagem Star Schema
-![transacional](./imgs/star_schema.jpg)
+### Modelagem Star Schema e Wide Table
+![transacional](./imgs/star_schema_and_wide.png)
 
 ## Conclusão
 Este trabalho apresentou o desenvolvimento de um fluxo completo de preparação e transformação de dados a partir de um conjunto de dados brutos de um e-commerce brasileiro. Durante o processo, foram aplicadas técnicas de manipulação e análise de dados, com foco nos seguintes pontos:
