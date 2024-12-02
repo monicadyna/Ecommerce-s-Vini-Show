@@ -1,11 +1,31 @@
+### MBA Engenharia de Dados
+### Universidade Presbiteriana Mackenzie
+### Matéria: Data Prep & Transformation
+
 # Ecommerce's Vini Show
-Este trabalho mostra como desenvolver um fluxo completo de preparação e transformação de dados de um conjunto de dados brutos de um ecommerce brasileiro.
+Este trabalho mostra como desenvolver um fluxo completo de preparação e transformação de dados de um conjunto de dados brutos de um ecommerce brasileiro. O código e os arquivos gerados encontram-se disponíveis neste repositório para consulta e replicação.
 
 ---
 
+## Integrantes
+
+|Nome               |
+|----               |
+|Henrique Arduini   |
+|Mônica Dyna        |
+|Renato Mori        |
+|Vinícius Soares    |
+
+## Desafio
+1. Criar relacionamento das tabelas do diagrama abaixo. De forma que não perca a linhas da tabela Produto.
+   <!-- comentário para inserir imagem -->
+2. Filtrar os dados somente com dados que o campo MakeFlag é igual 0 da tabela produto.
+3. Gerar um arquivo agregado por categoria e quantidade de produtos diferentes. Formato dos arquivos Excel.
+4. Gerar um arquivo com todas as informações das 3 tabelas. Filtrar campos (colunas) que sejam repetidos (chaves estrangeiras). Formato do arquivo CSV.)
+
 ## Divisão de tarefas
 - **Criação do dockerfile do projeto**
-    - Responsáveis - Vinishow e Renato Mori
+    - Responsáveis - Vinicíus Soares e Renato Mori
 
 - **Criação do banco transacional**
     - Responsável - Renato Mori
@@ -15,7 +35,7 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 <!-- comentário para inserir imagem -->
 
 - **Ingestão os dados para o modelo transacional**
-    - Responsável - Vinishow
+    - Responsável - Vinicíus Soares
 ---
 - **Criação do banco analítico**
     - Responsável - Renato Mori
@@ -24,7 +44,7 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
     - Responsáveis - Henrique Arduini e Mônica Dyna
 
 - **Ingestão os dados para o modelo analítico**
-    - Responsável - Vinishow
+    - Responsável - Vinicíus Soares
 ---
 - **Documentação do projeto: README.md**
     - Responsáveis - Todos
@@ -32,46 +52,14 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 - **Documentação do código e scripts**
     - Responsáveis - Todos
 
-
-    ------------
-    ------------
-    ------------
-    ------------
-    # Case 2
-### MBA Engenharia de Dados
-### Universidade Presbiteriana Mackenzie
-### Matéria: Data Collection & Storage
-
-
-## Integrantes
-
-|Nome               |
-|----               |
-|Gustavo Bido       |
-|João Pedro         |
-|Kayque Mendes      |
-|Vinícius Soares    |
-
-
-## Proposta 
-1. Pense no nome do Domínio de informação e da Sigla
-2. Pense no modelo de negócio e crie os campos com nomes lógicos e físicos
-3. Crie o Glossário de Dados
-4. Desenhe as tabelas físicas e lógicas Relacionais com as (Chave PK e campos)
-5. Crie as tabelas Fato e Dimensão
-6. Crie o Script SQL para criar a tabela FATO (Extract / Data Collection)
-
+    
 ## Solução
 
-### 1. Pense no nome do Domínio de informação e da Sigla
-### Domínio de informação: Prestação de Serviços
-### Sigla: SRVC
-
-### 2. Modelo de negócio e campos com nomes lógicos
-
+### 1. Criar relacionamento das tabelas do diagrama proposto, de forma que não perca a linhas da tabela Produto.
 ## Tabelas
+<!-- comentário para inserir imagem -->
 
-### servico
+### Costumers
 
 |Lógico                 |   Físico          |   Chave   |
 |-----------------------|---------------    |:---------:|
@@ -83,7 +71,7 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 |Data do Serviço        |`data`             |           |
 |Valor do serviço       |`valor`            |           |
 
-### cliente
+### Geolocation
 
 |Lógico                 |   Físico      |   Chave   |
 |-----------------------|---------------|:---------:|
@@ -92,7 +80,7 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 |Endereço do Cliente    |`endereco`     |           |
 |Telefone do Cliente    |`telefone`     |           |
 
-### profissional
+### Order Items
 
 |Lógico                 |       Físico      |   Chave   |
 |-----------------------|---------------    |:---------:|
@@ -100,7 +88,7 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 |Nome do Profissional   |`nome`             |           |
 |Cargo do Profissional  |`cargo`            |           |
 
-### filial
+### Order Payments
 
 |Lógico                     |       Físico      |   Chave   |
 |---------------------------|-------------------|:---------:|
@@ -109,7 +97,43 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 |Endereço da Filial         |`endereco`         |           |
 |Telefone da Filial         |`telefone`         |           |
 
-### gerente
+### Order Reviews 
+
+|Lógico                 |       Físico      |   Chave   |
+|-----------------------|-------------------|:---------:|
+|Código do Gerente      |`id_gerente`       |PK         |
+|Nome do Gerente        |`nome`             |           |
+|Telefone do Gerente    |`cargo`            |           |
+|Código da Filial       |`id_filial`        |FK         |
+
+### Orders 
+
+|Lógico                 |       Físico      |   Chave   |
+|-----------------------|-------------------|:---------:|
+|Código do Gerente      |`id_gerente`       |PK         |
+|Nome do Gerente        |`nome`             |           |
+|Telefone do Gerente    |`cargo`            |           |
+|Código da Filial       |`id_filial`        |FK         |
+
+### Products
+
+|Lógico                 |       Físico      |   Chave   |
+|-----------------------|-------------------|:---------:|
+|Código do Gerente      |`id_gerente`       |PK         |
+|Nome do Gerente        |`nome`             |           |
+|Telefone do Gerente    |`cargo`            |           |
+|Código da Filial       |`id_filial`        |FK         |
+
+### Sellers
+
+|Lógico                 |       Físico      |   Chave   |
+|-----------------------|-------------------|:---------:|
+|Código do Gerente      |`id_gerente`       |PK         |
+|Nome do Gerente        |`nome`             |           |
+|Telefone do Gerente    |`cargo`            |           |
+|Código da Filial       |`id_filial`        |FK         |
+
+### Product Category Name
 
 |Lógico                 |       Físico      |   Chave   |
 |-----------------------|-------------------|:---------:|
@@ -119,139 +143,24 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 |Código da Filial       |`id_filial`        |FK         |
 
 
-### 3. Crie o Glossário de Dados
+### 2. Filtrar os dados somente com dados que o campo MakeFlag é igual 0 da tabela produto.
+<!-- comentário para inserir imagem -->
 
-|          Nome Físico          |              Nome Lógico            |     Tipo de Valor    |             Descrição               |
-|              --               |                   --                |             --       |               ---                   |
-|servico.id_servico             | Identificador de Serviços  (PK)     | Int()                | Identificador único do serviço      |
-|servico.id_profissional        | Identificador de Profissional (FK)  | Int()                | Identificador único do profissional |
-|servico.id_cliente             | Identificador do Cliente (FK)       | Int()                | Identificador único do cliente      |
-|servico.id_filial              | Identificar de Filial (FK)          | Int()                | Identificador único da filial       |
-|servico.descricao              | Descrição do Serviço                | Char()               | Descrição do serviço prestado       |
-|servico.data                   | Data do Serviço                     | Data()               | Data do serviço prestado            |
-|servico.valor                  | Valor do Serviço                    | float()              | Valor do serviço prestado           |
-|cliente.id_cliente             | Identificador do Cliente (PK)       | Int()                | Identificador único do cliente      |
-|cliente.nome                   | Nome do Cliente                     | Char()               | Nome do cliente                     |
-|cliente.endereco               | Endereço do Cliente                 | Char()               | Endereço do cliente                 |
-|cliente.telefone               | Telefone do Cliente                 | Int()                | Telefone do cliente                 |
-|profissional.id_profissional   | Identificador de Profissional (PK)  | Int()                | Identificador único do profissional |
-|profissional.nome              | Nome do Profissinal                 | Char()               | Nome do Profissional                |
-|profissional.cargo             | Cargo do Profissional               | Char()               | Cargo do profissional               |
-|filial.id_filial               | Identificador da Filial             | Int()                | Identificador único da filial       |
-|filial.endereco                | Endereço da Filial                  | Char()               | Endereço da filial                  |
-|filial.telefone                | Telefone da Filial                  | Char()               | Telefone da filial                  |
-|filial.id_gerente              | Gerente da Filial (FK)              | Int()                | Identificador único do gerente      |
-|gerente.id_gerente             | Identificar de Gerentes (PK)        | Int()                | Identificador único do gerente      |
-|gerente.nome                   | Nome do Gerente                     | Char()               | Nome do gerente                     |
-|gerente.telefone               | Telefone do Gerente                 | Int()                | Telefone do gerente                 |
+### 3. Gerar um arquivo agregado por categoria e quantidade de produtos diferentes. Formato dos arquivos Excel.
+<!-- comentário para inserir imagem -->
 
-### 4. Desenhe as tabelas físicas e lógicas Relacionais com as (Chave PK e campos)
+### 4. Gerar um arquivo com todas as informações das 3 tabelas. Filtrar campos (colunas) que sejam repetidos (chaves estrangeiras). Formato do arquivo CSV.)
+<!-- comentário para inserir imagem -->
 
-### Tabelas Físicas 
+## Conclusão
+Este trabalho apresentou o desenvolvimento de um fluxo completo de preparação e transformação de dados a partir de um conjunto de dados brutos de um e-commerce brasileiro. Durante o processo, foram aplicadas técnicas de manipulação e análise de dados, com foco nos seguintes pontos:
 
-### servico
-|Campo              |Tipo           |PK |NULL   |
-|-                  |-              |-  |-      |
-|id_servico         |int            |S  |N      |
-|id_profissional    |int            |N  |N      |
-|id_cliente         |int            |N  |N      |
-|id_filial          |int            |N  |N      |
-|descricao          |varchar(200)   |N  |N      |
-|data               |datetime       |N  |N      |
-|valor              |float          |N  |N      |
+Relacionamento de tabelas: Criamos o relacionamento entre as tabelas do diagrama fornecido, preservando todas as linhas da tabela Produto, garantindo que nenhum dado relevante fosse perdido no processo.
+Filtragem de dados: Aplicamos um filtro na tabela Produto para selecionar apenas as linhas em que o campo MakeFlag possui valor igual a 0, restringindo a análise a produtos específicos conforme solicitado.
+Geração de arquivos agregados: Foi gerado um arquivo Excel contendo informações agregadas por categoria e quantidade de produtos distintos, facilitando a análise de padrões e tendências por categoria.
+Consolidação de informações: Criamos um arquivo CSV unificado com todas as informações das três tabelas, eliminando colunas repetidas ou redundantes (chaves estrangeiras) para simplificar a visualização e análise dos dados.
 
-### cliente
+## Aprendizados e Impactos
+Este desafio possibilitou a prática de habilidades essenciais em engenharia de dados, como criação de relacionamentos, filtragem criteriosa, transformação de dados e exportação para formatos práticos e acessíveis. O resultado final permitiu obter informações relevantes para a análise estratégica do e-commerce, promovendo insights acionáveis para tomadas de decisão.
 
-|Campo              |Tipo           |PK |NULL   |
-|-                  |-              |-  |-      |
-|id_cliente         |int            |S  |N      |
-|nome               |varchar(50)    |N  |N      |
-|endereco           |varchar(100)   |N  |N      |
-|telefone           |int            |N  |N      |
-
-### profissional
-
-|Campo              |Tipo           |PK |NULL   |
-|-                  |-              |-  |-      |
-|id_profissional    |int            |S  |N      |
-|nome               |varchar(50)    |N  |N      |
-|cargo              |varchar(30)    |N  |N      |
-
-### filial
-
-|Campo              |Tipo           |PK |NULL   |
-|-                  |-              |-  |-      |
-|id_filial          |int            |S  |N      |
-|id_gerente         |int            |N  |N      |
-|telefone           |int            |N  |N      |
-|endereco           |varchar(100)   |N  |N      |
-
-### gerente
-
-|Campo              |Tipo           |PK |NULL   |
-|-                  |-              |-  |-      |
-|id_gerente         |int            |S  |N      |
-|nome               |varchar(50)    |N  |N      |
-|telefone           |int            |N  |N      |
-|id_filial          |int            |N  |N      |
-
-### Tabelas Lógicas
-
-![relational](src/diagrams/relational.png)
-
-### 5. Crie as tabelas Fato e Dimensão
-
-![dfDiagram](src/diagrams/dfDiagram.png)
-
-### 6. Crie o Script SQL para criar a tabela FATO (Extract / Data Collection)
-
-```sql
-CREATE TABLE [fato_servico] (
-  [id_servico] integer PRIMARY KEY,
-  [id_cliente] integer,
-  [id_profissional] integer,
-  [id_filial] integer,
-  [descricao] nvarchar(255),
-  [data] date,
-  [valor] float
-)
-GO
-
---Criação das dimensões
-CREATE TABLE [dim_cliente] (
-  [id_cliente] integer PRIMARY KEY,
-  [nome] nvarchar(255)
-)
-GO
-
-CREATE TABLE [dim_profissional] (
-  [id_profissional] integer PRIMARY KEY,
-  [nome] nvarchar(255)
-)
-GO
-
-CREATE TABLE [dim_filial] (
-  [id_filial] integer PRIMARY KEY,
-  [id_gerente] integer
-)
-GO
-
-CREATE TABLE [dim_gerente] (
-  [id_gerente] integer PRIMARY KEY,
-  [nome] nvarchar(255)
-)
-GO
-
--- Adição das foreign keys
-ALTER TABLE [fato_servico] ADD FOREIGN KEY ([id_cliente]) REFERENCES [dim_cliente] ([id_cliente])
-GO
-
-ALTER TABLE [fato_servico] ADD FOREIGN KEY ([id_profissional]) REFERENCES [dim_profissional] ([id_profissional])
-GO
-
-ALTER TABLE [fato_servico] ADD FOREIGN KEY ([id_filial]) REFERENCES [dim_filial] ([id_filial])
-GO
-
-ALTER TABLE [dim_gerente] ADD FOREIGN KEY ([id_gerente]) REFERENCES [dim_filial] ([id_gerente])
-GO
-```
+Com este trabalho, foi demonstrada a importância de um pipeline de dados bem estruturado, que conecta dados brutos a resultados concretos e utilizáveis. Além disso, o uso das ferramentas certas e boas práticas contribuiu para a consistência e qualidade dos dados transformados.
