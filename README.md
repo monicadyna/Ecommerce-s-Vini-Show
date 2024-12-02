@@ -32,7 +32,7 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 
 - **Criação do modelo do banco transacional**
     - Responsáveis - Mônica Dyna e Henrique Arduini
-<!-- comentário para inserir imagem -->
+![star_schema](./imgs/transact.jpg)
 
 - **Ingestão os dados para o modelo transacional**
     - Responsável - Vinicíus Soares
@@ -57,8 +57,7 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 
 ### 1. Criar relacionamento das tabelas do diagrama proposto, de forma que não perca a linhas da tabela Produto.
 ## Tabelas
-<!-- comentário para inserir imagem -->
-
+![star_schema](./imgs/star_schema.jpg)
 ### Costumers
 
 |Lógico                 |   Físico          |   Chave   |
