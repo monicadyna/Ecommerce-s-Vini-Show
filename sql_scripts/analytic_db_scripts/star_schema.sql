@@ -41,20 +41,6 @@ CREATE TABLE analitics_data.fact_orders (
 );
 
 
-CREATE TABLE analitics_data.fact_order_items (
-    order_item_id VARCHAR(32) PRIMARY KEY,
-    order_id VARCHAR(32),
-    product_id VARCHAR(32),
-    seller_id VARCHAR(32),
-    shipping_limit_date DATETIME2,
-    price DECIMAL(10, 2),
-    freight_value DECIMAL(10, 2),
-    FOREIGN KEY (order_id) REFERENCES fact_orders(order_id),
-    FOREIGN KEY (product_id) REFERENCES dim_products(product_id),
-    FOREIGN KEY (seller_id) REFERENCES dim_sellers(seller_id)
-);
-
-
 CREATE TABLE analitics_data.dim_order_items (
     order_item_id VARCHAR(32) PRIMARY KEY,
     order_id VARCHAR(32) NOT NULL,
@@ -63,7 +49,7 @@ CREATE TABLE analitics_data.dim_order_items (
     shipping_limit_date TIMESTAMP,
     price DECIMAL(10, 2),
     freight_value DECIMAL(10, 2),
-    FOREIGN KEY (order_id) REFERENCES fact_orders(order_id),
-    FOREIGN KEY (product_id) REFERENCES dim_products(product_id),
-    FOREIGN KEY (seller_id) REFERENCES dim_sellers(seller_id)
+    FOREIGN KEY (order_id) REFERENCES analitics_data.fact_orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES analitics_data.dim_products(product_id),
+    FOREIGN KEY (seller_id) REFERENCES analitics_data.dim_sellers(seller_id)
 );

@@ -17,11 +17,13 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 |Vinícius Soares    |
 
 ## Desafio
-1. Criar relacionamento das tabelas do diagrama abaixo. De forma que não perca a linhas da tabela Produto.
-   <!-- comentário para inserir imagem -->
-2. Filtrar os dados somente com dados que o campo MakeFlag é igual 0 da tabela produto.
-3. Gerar um arquivo agregado por categoria e quantidade de produtos diferentes. Formato dos arquivos Excel.
-4. Gerar um arquivo com todas as informações das 3 tabelas. Filtrar campos (colunas) que sejam repetidos (chaves estrangeiras). Formato do arquivo CSV.)
+1. Na primeira etapa criar o banco de dados transcional com base na documentação disponível em https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce, assim como um fluxo para realizar o carregamento dos dados neste banco de dados.
+
+2. Criar um modelo lógico e físico Star Schema e Wide Table para crição de um banco de dados analítico (cada um em um banco de dados diferente).
+
+3. Criar um fluxo, baseado em uma carga incial dos dados brutos para dados especialistas (Start Schema e Wide Table).
+
+4. Definir e tornar clara a escolha entre as abordagens de Batch, Micro-Batch ou Fluxo Contínuo.
 
 ## Divisão de tarefas
 - **Criação do dockerfile do projeto**
@@ -32,7 +34,6 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 
 - **Criação do modelo do banco transacional**
     - Responsáveis - Mônica Dyna e Henrique Arduini
-![star_schema](./imgs/transact.jpg)
 
 - **Ingestão os dados para o modelo transacional**
     - Responsável - Vinicíus Soares
@@ -55,101 +56,239 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
     
 ## Solução
 
-### 1. Criar relacionamento das tabelas do diagrama proposto, de forma que não perca a linhas da tabela Produto.
-## Tabelas
-![star_schema](./imgs/star_schema.jpg)
+### 1. Documentação das tabelas transacionais
+## Tabelas Transacionais
+
 ### Costumers
 
-|Lógico                 |   Físico          |   Chave   |
-|-----------------------|---------------    |:---------:|
-|Código do Serviço      |`id_servico`       |PK         |
-|Código do Cliente      |`id_cliente`       |FK         |
-|Código do Profissional |`id_profissional`  |FK         |
-|Filial executada       |`id_filial`        |FK         |
-|Descrição do Serviço   |`descricao`        |           |
-|Data do Serviço        |`data`             |           |
-|Valor do serviço       |`valor`            |           |
+| Column                     | Data Type          | Constraints         |
+|----------------------------|--------------------|---------------------|
+| customer_id                | VARCHAR(32)        | UNIQUE, NOT NULL    |
+| customer_unique_id         | VARCHAR(32)        | UNIQUE, NOT NULL    |
+| customer_zip_code_prefix   | VARCHAR(7)         |                     |
+| customer_city              | VARCHAR(50)        |                     |
+| customer_state             | CHAR(2)            |                     |
+| PRIMARY KEY (customer_id, customer_unique_id) |
+| FOREIGN KEY (customer_zip_code_prefix) REFERENCES transac_data.geolocation(geolocation_zip_code_prefix) |
+
+
 
 ### Geolocation
 
-|Lógico                 |   Físico      |   Chave   |
-|-----------------------|---------------|:---------:|
-|Código do Cliente      |`id_cliente`   |PK         |
-|Nome do Cliente        |`nome`         |           |
-|Endereço do Cliente    |`endereco`     |           |
-|Telefone do Cliente    |`telefone`     |           |
+| Column                     | Data Type          | Constraints         |
+|----------------------------|--------------------|---------------------|
+| geolocation_zip_code_prefix| VARCHAR(7)         | PRIMARY KEY         |
+| geolocation_lat            | DECIMAL(8, 6)      |                     |
+| geolocation_lng            | DECIMAL(9, 6)      |                     |
+| geolocation_city           | VARCHAR(50)        |                     |
+| geolocation_state          | CHAR(2)            |                     |
+
 
 ### Order Items
 
-|Lógico                 |       Físico      |   Chave   |
-|-----------------------|---------------    |:---------:|
-|Código do Profissional |`id_profissional`  |PK         |
-|Nome do Profissional   |`nome`             |           |
-|Cargo do Profissional  |`cargo`            |           |
+| Column                     | Data Type          | Constraints         |
+|----------------------------|--------------------|---------------------|
+| order_id                   | VARCHAR(32)        | NOT NULL            |
+| order_item_id              | INT                |                     |
+| product_id                 | VARCHAR(32)        |                     |
+| seller_id                  | VARCHAR(32)        |                     |
+| shipping_limit_date        | DATETIME           |                     |
+| price                      | DECIMAL(7, 2)      |                     |
+| freight_value              | DECIMAL(6, 2)      |                     |
+| PRIMARY KEY (order_id, order_item_id, product_id, seller_id) |
+| FOREIGN KEY (seller_id) REFERENCES transac_data.sellers(seller_id) |
+| FOREIGN KEY (product_id) REFERENCES transac_data.products(product_id) |
+| FOREIGN KEY (order_id) REFERENCES transac_data.orders(order_id) |
+
 
 ### Order Payments
 
-|Lógico                     |       Físico      |   Chave   |
-|---------------------------|-------------------|:---------:|
-|Código da Filial           |`id_filial`        |PK         |
-|Código do Gerente da Filial|`id_gerente`       |FK         |
-|Endereço da Filial         |`endereco`         |           |
-|Telefone da Filial         |`telefone`         |           |
+| Column                     | Data Type          | Constraints         |
+|----------------------------|--------------------|---------------------|
+| order_id                   | VARCHAR(32)        | PRIMARY KEY         |
+| payment_sequential         | INT                |                     |
+| payment_type               | VARCHAR(20)        |                     |
+| payment_installments       | INT                |                     |
+| payment_value              | DECIMAL(10, 2)     |                     |
+| FOREIGN KEY (order_id) REFERENCES transac_data.orders(order_id) |
+
 
 ### Order Reviews 
 
-|Lógico                 |       Físico      |   Chave   |
-|-----------------------|-------------------|:---------:|
-|Código do Gerente      |`id_gerente`       |PK         |
-|Nome do Gerente        |`nome`             |           |
-|Telefone do Gerente    |`cargo`            |           |
-|Código da Filial       |`id_filial`        |FK         |
+| Column                     | Data Type          | Constraints         |
+|----------------------------|--------------------|---------------------|
+| review_id                  | VARCHAR(32)        | NOT NULL            |
+| order_id                   | VARCHAR(32)        | NOT NULL            |
+| review_score               | INT                |                     |
+| review_comment_title       | VARCHAR(50)        |                     |
+| review_comment_message     | VARCHAR(255)       |                     |
+| review_creation_date       | DATE               |                     |
+| review_answer_timestamp    | DATETIME           |                     |
+| PRIMARY KEY (review_id, order_id) |
+| FOREIGN KEY (order_id) REFERENCES transac_data.orders(order_id) |
+
 
 ### Orders 
 
-|Lógico                 |       Físico      |   Chave   |
-|-----------------------|-------------------|:---------:|
-|Código do Gerente      |`id_gerente`       |PK         |
-|Nome do Gerente        |`nome`             |           |
-|Telefone do Gerente    |`cargo`            |           |
-|Código da Filial       |`id_filial`        |FK         |
+| Column                     | Data Type          | Constraints         |
+|----------------------------|--------------------|---------------------|
+| order_id                   | VARCHAR(32)        | UNIQUE, NOT NULL    |
+| customer_id                | VARCHAR(32)        | NOT NULL            |
+| order_status               | VARCHAR(20)        |                     |
+| order_purchase_timestamp   | DATETIME           |                     |
+| order_approved_at          | DATETIME           |                     |
+| order_delivered_carrier_date | DATETIME         |                     |
+| order_delivered_customer_date | DATETIME        |                     |
+| order_estimated_delivery_date | DATE            |                     |
+| PRIMARY KEY (order_id, customer_id) |
+| FOREIGN KEY (customer_id) REFERENCES transac_data.customer(customer_id) |
+
 
 ### Products
 
-|Lógico                 |       Físico      |   Chave   |
-|-----------------------|-------------------|:---------:|
-|Código do Gerente      |`id_gerente`       |PK         |
-|Nome do Gerente        |`nome`             |           |
-|Telefone do Gerente    |`cargo`            |           |
-|Código da Filial       |`id_filial`        |FK         |
+| Column                     | Data Type          | Constraints         |
+|----------------------------|--------------------|---------------------|
+| product_id                 | VARCHAR(32)        | PRIMARY KEY         |
+| product_category_name      | VARCHAR(50)        |                     |
+| product_name_length        | INT                |                     |
+| product_description_length | INT                |                     |
+| product_photos_qty         | INT                |                     |
+| product_weight_g           | INT                |                     |
+| product_length_cm          | INT                |                     |
+| product_height_cm          | INT                |                     |
+| product_width_cm           | INT                |                     |
+
 
 ### Sellers
 
-|Lógico                 |       Físico      |   Chave   |
-|-----------------------|-------------------|:---------:|
-|Código do Gerente      |`id_gerente`       |PK         |
-|Nome do Gerente        |`nome`             |           |
-|Telefone do Gerente    |`cargo`            |           |
-|Código da Filial       |`id_filial`        |FK         |
+| Column                     | Data Type          | Constraints         |
+|----------------------------|--------------------|---------------------|
+| seller_id                  | VARCHAR(32)        | PRIMARY KEY         |
+| seller_zip_code_prefix     | VARCHAR(7)         |                     |
+| seller_city                | VARCHAR(50)        |                     |
+| seller_state               | CHAR(2)            |                     |
+| FOREIGN KEY (seller_zip_code_prefix) REFERENCES transac_data.geolocation(geolocation_zip_code_prefix) |
+
+
 
 ### Product Category Name
 
-|Lógico                 |       Físico      |   Chave   |
-|-----------------------|-------------------|:---------:|
-|Código do Gerente      |`id_gerente`       |PK         |
-|Nome do Gerente        |`nome`             |           |
-|Telefone do Gerente    |`cargo`            |           |
-|Código da Filial       |`id_filial`        |FK         |
+| Column                     | Data Type          | Constraints         |
+|----------------------------|--------------------|---------------------|
+| id                         | INT                | IDENTITY, PRIMARY KEY |
+| product_category_name      | VARCHAR(50)        | NOT NULL            |
+| product_category_name_english | VARCHAR(50)     |                     |
+
+## Tabelas Star Schema
+
+### Dim Customers
+
+| Column                   | Data Type   | Constraints       |
+|--------------------------|-------------|-------------------|
+| customer_id              | VARCHAR(32) | PRIMARY KEY       |
+| customer_unique_id       | VARCHAR(32) | UNIQUE, NOT NULL  |
+| customer_zip_code_prefix | VARCHAR(7)  |                   |
+| customer_city            | VARCHAR(50) |                   |
+| customer_state           | CHAR(2)     |                   |
 
 
-### 2. Filtrar os dados somente com dados que o campo MakeFlag é igual 0 da tabela produto.
-<!-- comentário para inserir imagem -->
+### Dim Products
 
-### 3. Gerar um arquivo agregado por categoria e quantidade de produtos diferentes. Formato dos arquivos Excel.
-<!-- comentário para inserir imagem -->
+| Column                     | Data Type   | Constraints       |
+|----------------------------|-------------|-------------------|
+| product_id                 | VARCHAR(32) | PRIMARY KEY       |
+| product_category_name      | VARCHAR(50) |                   |
+| product_name_lenght        | INT         |                   |
+| product_description_lenght | INT         |                   |
+| product_photos_qty         | INT         |                   |
+| product_weight_g           | INT         |                   |
+| product_length_cm          | INT         |                   |
+| product_height_cm          | INT         |                   |
+| product_width_cm           | INT         |                   |
 
-### 4. Gerar um arquivo com todas as informações das 3 tabelas. Filtrar campos (colunas) que sejam repetidos (chaves estrangeiras). Formato do arquivo CSV.)
-<!-- comentário para inserir imagem -->
+### Dim Sellers
+
+| Column                   | Data Type   | Constraints       |
+|--------------------------|-------------|-------------------|
+| seller_id                | VARCHAR(32) | PRIMARY KEY       |
+| seller_zip_code_prefix   | VARCHAR(7)  |                   |
+| seller_city              | VARCHAR(50) |                   |
+| seller_state             | CHAR(2)     |                   |
+
+
+### Fact Orders
+
+| Column                         | Data Type   | Constraints                          |
+|--------------------------------|-------------|--------------------------------------|
+| order_id                       | VARCHAR(32) | PRIMARY KEY                          |
+| customer_id                    | VARCHAR(32) |                                      |
+| order_status                   | VARCHAR(20) |                                      |
+| order_purchase_timestamp       | DATETIME2   |                                      |
+| order_approved_at              | DATETIME2   |                                      |
+| order_delivered_carrier_date   | DATETIME2   |                                      |
+| order_delivered_customer_date  | DATETIME2   |                                      |
+| order_estimated_delivery_date  | DATETIME2   |                                      |
+| FOREIGN KEY (customer_id) REFERENCES analitics_data.dim_customers(customer_id) |
+
+
+### Dim Order Items
+
+| Column              | Data Type   | Constraints                            |
+|---------------------|-------------|----------------------------------------|
+| order_item_id       | VARCHAR(32) | PRIMARY KEY                            |
+| order_id            | VARCHAR(32) | NOT NULL                               |
+| product_id          | VARCHAR(32) | NOT NULL                               |
+| seller_id           | VARCHAR(32) | NOT NULL                               |
+| shipping_limit_date | TIMESTAMP   |                                        |
+| price               | DECIMAL(10, 2) |                                      |
+| freight_value       | DECIMAL(10, 2) |                                      |
+| FOREIGN KEY (order_id) REFERENCES fact_orders(order_id)                  |
+| FOREIGN KEY (product_id) REFERENCES dim_products(product_id)             |
+| FOREIGN KEY (seller_id) REFERENCES dim_sellers(seller_id)                |
+
+
+
+## Wide Table
+
+| Column                         | Data Type          |
+|--------------------------------|--------------------|
+| order_id                       | VARCHAR(32)        |
+| customer_id                    | VARCHAR(32)        |
+| customer_unique_id             | VARCHAR(32)        |
+| customer_zip_code_prefix       | VARCHAR(7)         |
+| customer_city                  | VARCHAR(50)        |
+| customer_state                 | CHAR(2)            |
+| order_status                   | VARCHAR(20)        |
+| order_purchase_timestamp       | DATETIME           |
+| order_approved_at              | DATETIME           |
+| order_delivered_carrier_date   | DATETIME           |
+| order_delivered_customer_date  | DATETIME           |
+| order_estimated_delivery_date  | DATE               |
+| order_item_id                  | INT                |
+| product_id                     | VARCHAR(32)        |
+| product_category_name          | VARCHAR(50)        |
+| product_name_length            | INT                |
+| product_description_length     | INT                |
+| product_photos_qty             | INT                |
+| product_weight_g               | INT                |
+| product_length_cm              | INT                |
+| product_height_cm              | INT                |
+| product_width_cm               | INT                |
+| seller_id                      | VARCHAR(32)        |
+| seller_zip_code_prefix         | VARCHAR(7)         |
+| seller_city                    | VARCHAR(50)        |
+| seller_state                   | CHAR(2)            |
+| shipping_limit_date            | DATETIME           |
+| price                          | DECIMAL(7, 2)      |
+| freight_value                  | DECIMAL(6, 2)      |
+
+
+
+### Modelagem transacional
+![transacional](./imgs/transact.jpg)
+
+### Modelagem Star Schema
+![transacional](./imgs/star_schema.jpg)
 
 ## Conclusão
 Este trabalho apresentou o desenvolvimento de um fluxo completo de preparação e transformação de dados a partir de um conjunto de dados brutos de um e-commerce brasileiro. Durante o processo, foram aplicadas técnicas de manipulação e análise de dados, com foco nos seguintes pontos:

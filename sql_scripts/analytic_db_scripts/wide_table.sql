@@ -1,42 +1,31 @@
-CREATE TABLE IF NOT EXISTS wide_table
-AS
-SELECT
-    o.order_id,
-    o.customer_id,
-    c.customer_unique_id,
-    c.customer_zip_code_prefix,
-    c.customer_city,
-    c.customer_state,
-    o.order_status,
-    o.order_purchase_timestamp,
-    o.order_approved_at,
-    o.order_delivered_carrier_date,
-    o.order_delivered_customer_date,
-    o.order_estimated_delivery_date,
-    oi.order_item_id,
-    oi.product_id,
-    p.product_category_name,
-    p.product_name_length,
-    p.product_description_length,
-    p.product_photos_qty,
-    p.product_weight_g,
-    p.product_length_cm,
-    p.product_height_cm,
-    p.product_width_cm,
-    oi.seller_id,
-    s.seller_zip_code_prefix,
-    s.seller_city,
-    s.seller_state,
-    oi.shipping_limit_date,
-    oi.price,
-    oi.freight_value
-FROM
-    transac_data.orders o
-JOIN
-    transac_data.customer c ON o.customer_id = c.customer_unique_id
-JOIN
-    transac_data.order_items oi ON o.order_id = oi.order_id
-JOIN
-    transac_data.products p ON oi.product_id = p.product_id
-JOIN
-    transac_data.sellers s ON oi.seller_id = s.seller_id;
+CREATE TABLE wide_table (
+    order_id VARCHAR(32),
+    customer_id VARCHAR(32),
+    customer_unique_id VARCHAR(32),
+    customer_zip_code_prefix VARCHAR(7),
+    customer_city VARCHAR(50),
+    customer_state CHAR(2),
+    order_status VARCHAR(20),
+    order_purchase_timestamp DATETIME,
+    order_approved_at DATETIME,
+    order_delivered_carrier_date DATETIME,
+    order_delivered_customer_date DATETIME,
+    order_estimated_delivery_date DATE,
+    order_item_id INT,
+    product_id VARCHAR(32),
+    product_category_name VARCHAR(50),
+    product_name_length INT,
+    product_description_length INT,
+    product_photos_qty INT,
+    product_weight_g INT,
+    product_length_cm INT,
+    product_height_cm INT,
+    product_width_cm INT,
+    seller_id VARCHAR(32),
+    seller_zip_code_prefix VARCHAR(7),
+    seller_city VARCHAR(50),
+    seller_state CHAR(2),
+    shipping_limit_date DATETIME,
+    price DECIMAL(7, 2),
+    freight_value DECIMAL(6, 2)
+);
