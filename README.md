@@ -56,8 +56,7 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
     
 ## Solução
 
-### 1. Documentação das tabelas transacionais
-## Tabelas Transacionais
+##  Documentação das tabelas transacionais
 
 ### Costumers
 
@@ -290,15 +289,18 @@ Este trabalho mostra como desenvolver um fluxo completo de preparação e transf
 ### Modelagem Star Schema e Wide Table
 ![transacional](./imgs/star_schema_and_wide.png)
 
-## Conclusão
-Este trabalho apresentou o desenvolvimento de um fluxo completo de preparação e transformação de dados a partir de um conjunto de dados brutos de um e-commerce brasileiro. Durante o processo, foram aplicadas técnicas de manipulação e análise de dados, com foco nos seguintes pontos:
+## Tempestividade
 
-Relacionamento de tabelas: Criamos o relacionamento entre as tabelas do diagrama fornecido, preservando todas as linhas da tabela Produto, garantindo que nenhum dado relevante fosse perdido no processo.
-Filtragem de dados: Aplicamos um filtro na tabela Produto para selecionar apenas as linhas em que o campo MakeFlag possui valor igual a 0, restringindo a análise a produtos específicos conforme solicitado.
-Geração de arquivos agregados: Foi gerado um arquivo Excel contendo informações agregadas por categoria e quantidade de produtos distintos, facilitando a análise de padrões e tendências por categoria.
-Consolidação de informações: Criamos um arquivo CSV unificado com todas as informações das três tabelas, eliminando colunas repetidas ou redundantes (chaves estrangeiras) para simplificar a visualização e análise dos dados.
+Após uma análise detalhada dos arquivos de ingestão, que são em formato .CSV e apresentam baixa frequência de atualização, recomendamos a utilização da abordagem de ingestão em batch para o projeto.
+
+Essa recomendação foi discutida com o cliente em uma reunião, onde foi acordado que a ingestão em batch é a estratégia mais adequada para atender às necessidades do cliente.
+
+## Conclusão
+Este trabalho apresentou o desenvolvimento de um fluxo completo de preparação e transformação de dados a partir de um conjunto de dados brutos de um e-commerce brasileiro. Durante o processo, foram aplicadas técnicas de manipulação e análise de dados.
 
 ## Aprendizados e Impactos
-Este desafio possibilitou a prática de habilidades essenciais em engenharia de dados, como criação de relacionamentos, filtragem criteriosa, transformação de dados e exportação para formatos práticos e acessíveis. O resultado final permitiu obter informações relevantes para a análise estratégica do e-commerce, promovendo insights acionáveis para tomadas de decisão.
+Este desafio possibilitou a prática de habilidades essenciais em engenharia de dados, como criação de relacionamentos, filtragem criteriosa, transformação de dados e exportação para formatos práticos e acessíveis.
+
+O resultado final permitiu às equipes responsáveis obter informações relevantes para a análise estratégica do e-commerce, promovendo insights acionáveis para tomadas de decisão.
 
 Com este trabalho, foi demonstrada a importância de um pipeline de dados bem estruturado, que conecta dados brutos a resultados concretos e utilizáveis. Além disso, o uso das ferramentas certas e boas práticas contribuiu para a consistência e qualidade dos dados transformados.
