@@ -164,5 +164,7 @@ rascunho.sql
 #.idea/
 
 # CSV
-
 *.csv
+
+# Zip
+*.zip
