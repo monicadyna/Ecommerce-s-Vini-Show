@@ -1,5 +1,4 @@
-CREATE TABLE IF NOT EXISTS wide_table
-AS
+INSERT INTO wide_table
 SELECT
     o.order_id,
     o.customer_id,
@@ -31,12 +30,12 @@ SELECT
     oi.price,
     oi.freight_value
 FROM
-    transac_data.orders o
+    VinishowEcommerce_transacional.transac_data.orders o
 JOIN
-    transac_data.customer c ON o.customer_id = c.customer_unique_id
+    VinishowEcommerce_transacional.transac_data.customer c ON o.customer_id = c.customer_unique_id
 JOIN
-    transac_data.order_items oi ON o.order_id = oi.order_id
+    VinishowEcommerce_transacional.transac_data.order_items oi ON o.order_id = oi.order_id
 JOIN
-    transac_data.products p ON oi.product_id = p.product_id
+    VinishowEcommerce_transacional.transac_data.products p ON oi.product_id = p.product_id
 JOIN
-    transac_data.sellers s ON oi.seller_id = s.seller_id;
+    VinishowEcommerce_transacional.transac_data.sellers s ON oi.seller_id = s.seller_id;
