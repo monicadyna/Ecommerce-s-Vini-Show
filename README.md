@@ -3,7 +3,7 @@
 ### Matéria: Data Prep & Transformation
 
 # Ecommerce's Vini Show
-Este trabalho mostra como desenvolver um fluxo completo de preparação e transformação de dados de um conjunto de dados brutos de um ecommerce brasileiro. O código e os arquivos gerados encontram-se disponíveis neste repositório para consulta e replicação.
+Este trabalho mostra como desenvolver um fluxo completo de preparação e transformação de dados de um conjunto de dados brutos de um de uma rede de varejo brasileira. O código e os arquivos gerados encontram-se disponíveis neste repositório para consulta e replicação.
 
 ---
 
